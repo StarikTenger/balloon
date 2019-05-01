@@ -12,9 +12,25 @@ using namespace random;
 
 
 void System::step() {
+	//deleting defective balls
+	for (auto& ball : balls) {
+		for (int i = 0; i < ball.points.size() - 1; i++) {
+			if (distance(ball.points[i].pos, ball.points[i + 1].pos) > 150) 
+			//if (geom::distance({}, ball.points[i].vel) > 100)
+				ball.defect = 1;
+			
+		}
+	}
+	for (int i = 0; i < balls.size(); i++) {
+		if (balls[i].defect) {
+			balls.erase(balls.begin() + i);
+			i--;
+		}
+	}
 
 	//calculating
 	for (auto& ball : balls) {
+		ball.circle();
 		int l = ball.points.size();
 		double v = ball.square();
 
@@ -42,7 +58,6 @@ void System::step() {
 			f += ball.points[i].vel*frictionK*(-1);
 
 			//acceleration
-			//std::cout << i << l << "\n";
 			ball.points[i].vel += f / ball.points[i].m * dt;
 		}
 	}
@@ -54,7 +69,7 @@ void System::step() {
 		}
 	}
 
-	//collision
+	//border collision
 	for (auto& ball : balls) {
 		for (auto& p : ball.points) {
 			if (p.pos.x < 0 && p.vel.x < 0) {
@@ -71,16 +86,18 @@ void System::step() {
 			}
 		}
 	}
-	//collision
+
+	//ball collision
 	for (int i = 0; i < balls.size(); i++) {
 		for (int j = 0; j < balls.size(); j++) {
 			if (i == j)
 				continue;
+			if(balls[i].r + balls[j].r > geom::distance(balls[i].centre, balls[j].centre))
 			collision(balls[i], balls[j]);
 		}
 	}
 
-
+	//wall collision
 	for (auto& ball : balls) {
 		for (auto& p : ball.points) {
 			checkWall(p);

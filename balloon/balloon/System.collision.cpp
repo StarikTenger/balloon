@@ -9,7 +9,7 @@ void System::collision(Ball& object, Ball& subject) {
 		polygon.push_back(p.pos);
 	}
 	for (auto& p : object.points) {
-		if (!geom::inPolygon(p.pos, polygon))
+		if (geom::distance(subject.centre, p.pos) > subject.r || !geom::inPolygon(p.pos, polygon))
 			continue;
 		pair<Body*, Body*> line;
 		double dist = 10000000000;
@@ -21,9 +21,9 @@ void System::collision(Ball& object, Ball& subject) {
 				line.second = &subject.points[i + 1];
 			}
 		}
-		double k = 1000;
-		p.vel += geom::rotate(geom::direction(line.first->pos, line.second->pos), M_PI/2)*k * dt;
-		line.first->vel += geom::rotate(geom::direction(line.first->pos, line.second->pos), M_PI/2)*k * dt * (-0.5);
-		line.second->vel += geom::rotate(geom::direction(line.first->pos, line.second->pos), M_PI/2)*k * dt * (-0.5);
+		double k = 50;
+		p.vel += geom::rotate(geom::direction(line.first->pos, line.second->pos), M_PI/2)*k * dt / p.m;
+		line.first->vel += geom::rotate(geom::direction(line.first->pos, line.second->pos), M_PI/2)*k * dt * (-0.5) / line.first->m;
+		line.second->vel += geom::rotate(geom::direction(line.first->pos, line.second->pos), M_PI/2)*k * dt * (-0.5) / line.second->m;
 	}
 }

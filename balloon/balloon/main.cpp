@@ -17,50 +17,50 @@
 #include "geometry.h"
 
 
-
 int main(int, char**){
 	random::start();
 	System sys;
-	sys.dt = 0.001;
-	sys.frictionK = 0.8;
+	sys.dt = 0.003;
+	sys.frictionK = 0.1;
 	sys.g = {0, 10};
 	sys.border = {500, 700};
-	
-	double k = 100;
-	double l = 20;
 
-	/*sys.walls.push_back(Wall({
-		{ 50, 400-k },
-		{ 250 - l, 400 },
-		{ 250 - l, 420 },
-		{ 50, 420 }
-	}));
-
+	double side = 120;
 	sys.walls.push_back(Wall({
-		{ 500-50, 400-k },
-		{ 500 - (250 - l), 400 },
-		{ 500 - (250 - l), 420 },
-		{ 500 - 50, 420 }
-	}));*/
-	
-
-	/*double h = 300;
-	double l = 1;
-
-
+		Vector2d(0, sys.border.y - side),
+		Vector2d(side, sys.border.y)
+		}));
 	sys.walls.push_back(Wall({
-		{ 0, sys.border.y },
-		{ sys.border.x / 2 - l / 2, sys.border.y - h },
-		{ sys.border.x / 2 + l / 2, sys.border.y - h },
-		{ sys.border.x, sys.border.y },
-	}));*/
+		Vector2d(sys.border.x, sys.border.y - side),
+		Vector2d(sys.border.x-side, sys.border.y)
+		}));
 
-
-
-	sys.bubble({ 160,440 }, 150, { 10, -10 }, 1, 0.01, 0, 50, Color(0, 255, 0));
-	sys.bubble({ 300, 200 }, 120, { 0, 0 }, 1, 0.01, 0, 50, Color(255, 0, 0));
-	sys.bubble({ 110, 110 }, 100, { 0, 0 }, 1, 1, 0, 50, Color(0, 0, 255));
-	//sys.bubble({ 30, 60 }, 70, { 0, 0 }, 1, 0.05, 0, 50, Color(255, 255, 00));
+	for (int x = 0; x < 4; x++) {
+		for (int y = 0; y < 6; y++) {
+			sys.bubble(
+				Vector2d(60 + x * 100, 60 + y * 100 ),
+				50,
+				{ 0, 0 },
+				4,
+				0.002,
+				0,
+				50,
+				Color(random::intRandom(190, 255), random::intRandom(190, 255), random::intRandom(190, 255)));
+			sys.balls.back().pv *= 2;
+		}
+	}
+	/*sys.bubble(
+		Vector2d( 250, 500), //pos
+		100, //r 
+		{ 0, 0 }, //vel
+		500, //m
+		1, //k
+		0, //l0
+		50, //k
+		Color(255, 255, 255));
+	sys.balls.back().pv *= 1;*/
+	//sys.balls.back().points[0].m = 100;
+	//sys.balls.back().points[25].m = 100;
 
 	sys.pressure = 0;
 	
@@ -97,7 +97,7 @@ int main(int, char**){
 
 			}
 			for(int i=0; i<30; i++)
-			sys.step();
+				sys.step();
 			drawSys.draw(sys);
 			
 		}

@@ -22,3 +22,18 @@ double Ball::square() {
 	}
 	return geom::square(polygon);
 }
+
+int Ball::circle() {
+	centre = Vector2d(0, 0);
+	for (auto& p : points) {
+		centre += p.pos;
+	}
+	centre = centre / points.size();
+	r = 0;
+	for (auto& p : points) {
+		double dist = geom::distance(centre, p.pos);
+		if (dist > r)
+			r = dist;
+	}
+	return 0;
+}

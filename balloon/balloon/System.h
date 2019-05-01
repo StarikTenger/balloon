@@ -8,7 +8,7 @@
 class System {
 public:
 
-	double dt = 0.01;
+	double dt = 0.001;
 	long double time = 0;
 	double frictionK = 1;
 	double pressure = 5;
@@ -22,7 +22,7 @@ public:
 	~System();
 
 	void step();
-	void bubble(Vector2d pos, double r, Vector2d vel, double pv, double k, double l0, double n, Color c);
+	void bubble(Vector2d pos, double r, Vector2d vel, double m, double k, double l0, double n, Color c);
 	void checkWall(Body& b);
 	void collision(Ball& object, Ball& subject);
 };
