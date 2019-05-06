@@ -35,30 +35,31 @@ int main(int, char**){
 		Vector2d(sys.border.x-side, sys.border.y)
 		}));
 
-	for (int x = 0; x < 4; x++) {
-		for (int y = 0; y < 6; y++) {
+	for (int x = 0; x < 15; x++) {
+		for (int y = 0; y < 12; y++) {
 			sys.bubble(
-				Vector2d(60 + x * 100, 60 + y * 100 ),
-				50,
+				Vector2d(60 + x * 30, 60 + y * 30 ),
+				10,
 				{ 0, 0 },
 				4,
-				0.002,
+				20,
 				0,
-				50,
+				10,
 				Color(random::intRandom(190, 255), random::intRandom(190, 255), random::intRandom(190, 255)));
-			sys.balls.back().pv *= 2;
+			//sys.balls.back().pv *= 2;
+			//sys.balls.back().l0 = 15*sqrt(3);
 		}
 	}
-	/*sys.bubble(
+	sys.bubble(
 		Vector2d( 250, 500), //pos
 		100, //r 
 		{ 0, 0 }, //vel
-		500, //m
-		1, //k
+		30, //m
+		0.4, //k
 		0, //l0
 		50, //k
 		Color(255, 255, 255));
-	sys.balls.back().pv *= 1;*/
+	sys.balls.back().pv *= 1;
 	//sys.balls.back().points[0].m = 100;
 	//sys.balls.back().points[25].m = 100;
 

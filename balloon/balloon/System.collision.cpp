@@ -21,7 +21,7 @@ void System::collision(Ball& object, Ball& subject) {
 				line.second = &subject.points[i + 1];
 			}
 		}
-		double k = 50;
+		double k = 500;
 		p.vel += geom::rotate(geom::direction(line.first->pos, line.second->pos), M_PI/2)*k * dt / p.m;
 		line.first->vel += geom::rotate(geom::direction(line.first->pos, line.second->pos), M_PI/2)*k * dt * (-0.5) / line.first->m;
 		line.second->vel += geom::rotate(geom::direction(line.first->pos, line.second->pos), M_PI/2)*k * dt * (-0.5) / line.second->m;
